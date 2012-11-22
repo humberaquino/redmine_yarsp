@@ -13,7 +13,7 @@ __Obs.: This version is in alpha stage__
 
 1. Clone this repo into redmine's plugins directory
 ```
-git clone https://
+git clone https://github.com/humberaquino/redmine_yarsp.git
 ```
 
 2. Change directory to plugin and run
