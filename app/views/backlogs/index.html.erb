@@ -1,0 +1,79 @@
+<h2>Product Backlog</h2>
+
+<%= form_tag backlogs_path do -%>
+
+<table>
+  <tr>
+    <th></th>
+    <th>Min</th>
+    <th>Avg</th>
+    <th>Max</th>
+  </tr>
+  <tr>
+    <td>Velocity</td>
+    <td><%= text_field_tag 'min', session[:min] %> </td>
+    <td><%= text_field_tag 'avg', session[:avg] %></td>
+    <td><%= text_field_tag 'max', session[:max] %></td>
+  </tr>
+  <tr>
+    <td>Number of sprints:</td>
+    <td colspan="3"><%= text_field_tag 'num_sprints', session[:num_sprints] %></td>
+  </tr>
+  <tr>
+    <td>Projects:</td>
+    <td colspan="3">
+      <%= select_tag 'projects[]', options_for_select(@projects, @selected_projects), :multiple => true, :size => 4 %>
+    </td>
+  </tr>
+  <tr>
+    <td>Versions:</td>
+    <td colspan="3">
+       <%= select_tag 'versions[]', options_for_select(@versions, @selected_versions), :multiple => true, :size => 4 %> 
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="3"><%= submit_tag 'Accept' %></td>
+  </tr>
+</table>
+<% end -%>
+
+<br/>
+
+<table>
+  <tr>
+    <th>Project name</th>
+    <th>Id</th>
+    <th>Subject</th>
+    <th>Milestone</th>
+    <th>Size</th>
+    <th>Market</th>
+    <th>Urgency</th>
+    <th>Tech</th>
+    <th>Priority</th>
+    <th>Cumulative Sum Of Size</th>
+  </tr>
+
+  <% @result.each do |h|  %>
+  <% color_class = class_color(session[:min], session[:avg], session[:max], session[:num_sprints], h['cumulative_sum_of_size']) %>
+
+  <tr class="<%= color_class %>">
+    <td><%= h['project_name'] %></td>
+    <td><%= raw h['id'] %></td>
+    <td><%= h['subject'] %></td>
+    <td><%= @verIdToName[h['milestone']] if h['milestone'] %></td>
+    <td><%= h['size'] %></td>
+    <td><%= h['market'] %></td>
+    <td><%= h['urgency'] %></td>
+    <td><%= h['tech'] %></td>
+    <td><%= h['priority'] %></td>
+    <td><%= h['cumulative_sum_of_size'] %></td>
+  </tr>
+<% end %>
+
+</table>
+
+<% content_for :header_tags do %>
+<%= stylesheet_link_tag 'yarsp', :plugin => 'redmine_yarsp' %>
+<% end %>
+    
